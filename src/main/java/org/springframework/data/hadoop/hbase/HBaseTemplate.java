@@ -153,6 +153,17 @@ public class HBaseTemplate extends HBaseAccessor implements HBaseOperations {
     }
 
     @Override
+    public <T> T get(String tableName, final Get get, final RowMapper<T> mapper) {
+        return execute(tableName, new TableCallback<T>() {
+            @Override
+            public T doInTable(Table table) throws Throwable {
+                Result result = table.get(get);
+                return mapper.mapRow(result, 0);
+            }
+        });
+    }
+
+    @Override
     public void put(String tableName, final String rowName, final String familyName, final String qualifier, final byte[] value) {
         Assert.hasLength(rowName);
         Assert.hasLength(familyName);

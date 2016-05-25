@@ -15,6 +15,7 @@
  */
 package org.springframework.data.hadoop.hbase;
 
+import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Scan;
 
 import java.util.List;
@@ -153,7 +154,19 @@ public interface HBaseOperations {
 	 * @return object mapping the target row
 	 */
 	<T> T get(String tableName, final String rowName, final String familyName, final String qualifier, final RowMapper<T> mapper);
-	
+
+
+    /**
+     * Gets an individual row from the given table. The content is mapped by the given action.
+     *
+     * @param tableName target table
+     * @param get
+     * @param mapper    row mapper
+     * @param <T>       mapper type
+     * @return object mapping the target row
+     */
+    <T> T get(String tableName, final Get get, final RowMapper<T> mapper);
+
 	/**
 	 * Puts a single value in to the given table. 
 	 * 
